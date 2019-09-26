@@ -1,6 +1,8 @@
 # Simple Activity Events Microservice
 
 [![Build Status](https://cloud.drone.io/api/badges/idestis/ori-service/status.svg)](https://cloud.drone.io/idestis/ori-service)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3b7eaf418e30844ca273/test_coverage)](https://codeclimate.com/github/idestis/ori-service/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3b7eaf418e30844ca273/maintainability)](https://codeclimate.com/github/idestis/ori-service/maintainability)
 
 The service will recieve and store event messages for deployments by ID
 
