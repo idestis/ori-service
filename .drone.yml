@@ -13,3 +13,24 @@ steps:
       GO111MODULE: on
     commands:
       - go test --race ./...
+
+  - name: docker
+    image: plugins/docker
+    settings:
+      dockerfile: ci/Dockerfile
+      repo: destis/activity_server
+      auto_tag: true
+      username: { from_secret: DOCKER_USERNAME }
+      password: { from_secret: DOCKER_PASSWORD }
+  
+  - name: release
+    image: goreleaser/goreleaser:v0.108.0
+    commands:
+      - git diff
+      - goreleaser release --rm-dist --skip-validate
+    environment:
+      GO111MODULE: on
+      GITHUB_TOKEN: { from_secret: GITHUB_TOKEN }
+    when:
+      event:
+        - tag
