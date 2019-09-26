@@ -186,3 +186,20 @@ But actually, when I design application with microservices, I will suggest using
 12. **Admin processes** 
 
 Only one Admin process is available here, track the logs. There is not database oparations, only local storage, but we still don't have operation to wipe it or delete any record.
+
+
+## Cloud-nativeness of this service
+
+- Packaged as lightweight container
+- Aligned to processes and lifecycle
+- Automated capabilities using Kubernetes
+- Defined, policy-driven resource allocation can be done using Kubernetes
+- Centered around APIs for interaction and collaboration using gRPC
+
+## Event Store
+
+Event stores and event sourcing often also implies an event bus such as Cloud Pub/Sub (Google Cloud), RabbitMQ. 
+
+We can use this in our stack to allow other services to be subscribed on topics.
+
+For example we can use and update ``deployment-topic`` based on proccessed message of ``Activity_Server`` service when the event was added and than display in the activity page using websockets in ``Metrics`` service.
