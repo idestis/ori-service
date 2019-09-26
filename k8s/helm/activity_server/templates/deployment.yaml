@@ -24,10 +24,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - {name: PORT, value: "50051"}
+            - name: PORT
+              value: "{{ .Values.service.port }}"
           ports:
             - name: grpc
-              containerPort: 50051
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             exec:
