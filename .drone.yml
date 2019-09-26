@@ -7,6 +7,11 @@ platform:
 
 steps:
 
+  - name: fetch-tags
+    image: docker:git
+    commands:
+      - git fetch --tags
+
   - name: tests
     image: golang
     environment:
