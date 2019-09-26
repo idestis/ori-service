@@ -45,7 +45,7 @@ func (s *server) ListEvents(deployment *pb.Deployment, stream pb.ActivityEvents_
 }
 
 func main() {
-	port := os.Getenv("AE_PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "50051"
 	}

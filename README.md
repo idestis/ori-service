@@ -1,4 +1,6 @@
-# Activity Events
+# Simple Activity Events service
+
+[![Build Status](https://cloud.drone.io/api/badges/idestis/ori-service/status.svg)](https://cloud.drone.io/idestis/ori-service)
 
 The service will recieve and store event messages for deployments by ID
 
@@ -40,6 +42,17 @@ go run activity_client/client.go -deployment 1
 
 In the folder with server you can find already compiled binary for Darwins, but in any case you can build
 
+#### Docker 
+
+##### Build
+```
+docker build -t activity-server:debug .
+```
+
+##### Run
+```
+docker run -d -t -i -e PORT=50051 -p 50051:50051 activity_server
+```
 
 
 ## Rebuilding the generated code

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io"
 	"time"
 
@@ -11,10 +12,6 @@ import (
 
 	pb "github.com/idestis/ori-service/activityevents"
 	"google.golang.org/grpc"
-)
-
-const (
-	address = "localhost:50051"
 )
 
 func createEvent(client pb.ActivityEventsClient, event *pb.EventRequest) {
@@ -50,18 +47,20 @@ func listEvents(client pb.ActivityEventsClient, deployment *pb.Deployment) {
 }
 
 func main() {
+	addPtr := flag.String("add", "", "Event to add")
+	streamPtr := flag.Int("deployment", 0, "Stream deployment events by given ID")
+	addressPtr := flag.String("address", "127.0.0.1", "Address of the server for connection")
+	portPtr := flag.Int("port", 500051, "Port of the server for connection")
+	flag.Parse()
+	connectionString := fmt.Sprintf("%s:%d", *addressPtr, *portPtr)
 	// Set up a connection to the gRPC server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(connectionString, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 
 	client := pb.NewActivityEventsClient(conn)
-
-	addPtr := flag.String("add", "", "Event to add")
-	streamPtr := flag.Int("deployment", 0, "Stream deployment events by given ID")
-	flag.Parse()
 	if *streamPtr != 0 {
 		deployment := &pb.Deployment{Id: int32(*streamPtr)}
 		listEvents(client, deployment)

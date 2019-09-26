@@ -1,0 +1,15 @@
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+
+  - name: tests
+    image: golang
+    environment:
+      GO111MODULE: on
+    commands:
+      - go test --race ./...
