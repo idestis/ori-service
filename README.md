@@ -1,4 +1,4 @@
-# Simple Activity Events service
+# Simple Activity Events Microservice
 
 [![Build Status](https://cloud.drone.io/api/badges/idestis/ori-service/status.svg)](https://cloud.drone.io/idestis/ori-service)
 
@@ -82,4 +82,21 @@ helm install ./k8s/helm/activity_server --name activity_server --namespace activ
 git clone https://github.com/idestis/ori-service.git ori-service && cd $_
 
 go generate ./...     # only if you canged .proto files
+```
+
+You can test the service is running correctly by using `grpc-health-probe`
+
+```bash
+$ PORT=5000 go run activity_server/server.go &
+$ go get github.com/grpc-ecosystem/grpc-health-probe
+$ grpc-health-probe -addr=:5000
+status: SERVING
+```
+
+Or from the docker container itself
+
+```
+$ docker run --rm -d --name=activity-server destis/activity-server:latest
+$ docker exec -i activity-server grpc-health-probe -addr=:50051
+status: SERVING
 ```
