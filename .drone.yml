@@ -14,7 +14,7 @@ steps:
     commands:
       - go test --race ./...
 
-  - name: docker
+  - name: docker build and publish
     image: plugins/docker
     settings:
       dockerfile: Dockerfile
@@ -23,7 +23,7 @@ steps:
       username: { from_secret: DOCKER_USERNAME }
       password: { from_secret: DOCKER_PASSWORD }
   
-  - name: release
+  - name: release binaries
     image: goreleaser/goreleaser:v0.108.0
     commands:
       - git diff
