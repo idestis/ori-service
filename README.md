@@ -73,7 +73,13 @@ Binaries `activity_server` and `activity_client` are available on the Github Rel
 ### Kubernetes & Helm
 
 ```bash
-helm install ./k8s/helm/activity_server --name activity-server --namespace activity-server --set image.tag=latest
+$ helm install ./k8s/helm/activity_server --name activity-server --namespace activity-server --set image.tag=latest
+```
+
+Upgrade the version of server
+
+```bash
+$ helm upgrade activity-server ./k8s/helm/activity_server --set image.tag=0.0.3
 ```
 
 ## Develop
