@@ -8,7 +8,7 @@ The service will recieve and store event messages for deployments by ID
 
 **Known issue:** Server will save duplicated records as well :(
 
-- **CI/CD**: Drone.io (tests)
+- **CI/CD**: Drone.io (tests, build & publish to DockerHub and Release on Github Releases)
 - **Coverage**: TODO
 - **Code Quality**: TODO
 - **Orchestration**: Kubernetes
@@ -70,7 +70,7 @@ INFO[0000] Server has been started on 50051
 
 ### Binaries
 
-Binaries `activity_server` and `activity_client` are available on the Github Release Page
+Binaries `activity_server` and `activity_client` are available on the [Github Release Page](https://github.com/idestis/ori-service/releases)
 
 ### Kubernetes & Helm
 
