@@ -21,15 +21,19 @@ type server struct {
 	savedEvents []*pb.EventRequest
 }
 
-type HealthImpl struct{}
+type HealthImpl struct {
+	// This is our healthcheck implementation
+}
 
 func (h *HealthImpl) Check(ctx context.Context, args *grpc_health_v1.HealthCheckRequest) (*grpc_health_v1.HealthCheckResponse, error) {
+	// Health-check endpoint
 	return &grpc_health_v1.HealthCheckResponse{
 		Status: grpc_health_v1.HealthCheckResponse_SERVING,
 	}, nil
 }
 
 func (h *HealthImpl) Watch(*grpc_health_v1.HealthCheckRequest, grpc_health_v1.Health_WatchServer) error {
+	// Keep-alive streaming
 	return nil
 }
 
