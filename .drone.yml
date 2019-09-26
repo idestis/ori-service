@@ -17,7 +17,7 @@ steps:
   - name: docker
     image: plugins/docker
     settings:
-      dockerfile: ci/Dockerfile
+      dockerfile: Dockerfile
       repo: destis/activity_server
       auto_tag: true
       username: { from_secret: DOCKER_USERNAME }
