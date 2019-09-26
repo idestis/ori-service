@@ -18,7 +18,7 @@ FROM alpine
 WORKDIR /bin/
 RUN apk add --no-cache bash ca-certificates
 # Copy our static executable.
-COPY --from=builder /go/bin/grpc-health-probe /go/bin/activity_server /go/bin/activity_client ./
+COPY --from=builder /go/bin/grpc-health-probe /go/bin/activity_server ./
 ENV PORT 50051
 EXPOSE 50051
 # Run the activity_server binary.
