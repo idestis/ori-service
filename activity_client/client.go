@@ -50,8 +50,11 @@ func main() {
 	addPtr := flag.String("add", "", "Event to add")
 	streamPtr := flag.Int("deployment", 0, "Stream deployment events by given ID")
 	addressPtr := flag.String("address", "127.0.0.1", "Address of the server for connection")
-	portPtr := flag.Int("port", 500051, "Port of the server for connection")
+	portPtr := flag.Int("port", 50051, "Port of the server for connection")
 	flag.Parse()
+	if *addPtr == "" && *streamPtr == 0 {
+		flag.PrintDefaults()
+	}
 	connectionString := fmt.Sprintf("%s:%d", *addressPtr, *portPtr)
 	// Set up a connection to the gRPC server.
 	conn, err := grpc.Dial(connectionString, grpc.WithInsecure())

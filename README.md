@@ -6,57 +6,72 @@ The service will recieve and store event messages for deployments by ID
 
 **Known issue:** Server will save duplicated records as well :(
 
-## Server
+- **CI/CD**: Drone.io (tests)
+- **Coverage**: TODO
+- **Code Quality**: TODO
+- **Orchestration**: Kubernetes
+- **Config Management**: Helm
+- **Local Development**: protoc, grpcurl
 
-The server was built on top of gRPC
+This microservice was created from scratch for some reason. We all have a reason, right?
+There is a lot of methods to generate microservices, for example there is a tool called [Lile](https://github.com/lileio/lile) which will create microservice skeleton with best practices like metrics (eg Prometheus), Service Discovery and Tracing
 
-In gRPC we have two methods
+## Usage
 
-This method allows you to create event with message for any deployment.
-In the response you will get "execution_ time" as calculated value from both sides (client-and-server)
-```
-rpc CreateEvent(EventRequest) returns (EventResponse) {}
-```
+Refer to [Install](#Install) for getting `activity_server` and `activity_client`
 
-ListEvents methods  allow you to retreive stream of events for requested deployment ID.
+First, run `activity_server` somewhere (eg you can run it on your localhost)
 
-```
-rpc ListEvents(Deployment) returns (stream EventRequest) {}
-```
-
-## Client
-
-Add new event method call from client
-
-```
-go run activity_client/client.go -add '{"id":1, "deployment_id": 1, "message":"Deployment has beed created successfully"}'
+```bash
+./activity_server
 ```
 
-Retreive stream of the events by deployment ID
+Then, we can query our server using the client. There is two possible actions here:
 
-```
-go run activity_client/client.go -deployment 1
-```
+- create event
 
-### Build
-
-In the folder with server you can find already compiled binary for Darwins, but in any case you can build
-
-#### Docker 
-
-##### Build
-```
-docker build -t activity-server:debug .
+```bash
+./activity_client -add '{"id":1, "deployment_id": 1, "message":"Deployment has beed created successfully"}'
+INFO[0000] An event created with id [1] for deployment_id [1] in 4 ms
 ```
 
-##### Run
-```
-docker run -d -t -i -e PORT=50051 -p 50051:50051 activity_server
+- fetch events
+
+```bash
+./activity_client -deployment 1
+INFO[0000] Event: id:1 message:"Deployment has beed created successfully" timestamp:<send:1569500037894488000 receive:1569500037898843000 > deployment_id:1
 ```
 
+Default output if no params given
 
-## Rebuilding the generated code
-
+```bash
+-add string
+    Event to add
+  -address string
+    Address of the server for connection (default "127.0.0.1")
+  -deployment int
+    Stream deployment events by given ID
+  -port int
+    Port of the server for connection (default 50051)
 ```
-protoc -I activityevents activityevents/activityevents.proto --go_out=plugins=grpc:activityevents
+
+## Install
+
+### Docker image
+
+For easy usage I provided Docker Image at the Docker Hub
+
+```bash
+docker run -e PORT=50051 -p 50051:50051 destis/activity_server:latest
+INFO[0000] Server has been started on 50051
+```
+
+### Binaries
+
+Binaries `activity_server` and `activity_client` are available on the Github Release Page
+
+### Kubernetes & Helm
+
+```bash
+helm install ./k8s/helm/activity_server --name activity_server --namespace activity_server --set image.tag=latest
 ```

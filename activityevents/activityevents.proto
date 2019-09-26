@@ -31,9 +31,9 @@ message EventRequest {
 }
 
 message Timestamp {
-  // Will hold time when client send data in Unix epoch
+  // Will hold time when client send data
   int64 send = 1;
-  // Will hold time when server received data in Unix epoch
+  // Will hold time when server received data
   int64 receive = 2;
 }
 
