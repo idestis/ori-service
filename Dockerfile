@@ -2,19 +2,24 @@
 # STEP 1 build executable binary
 ############################
 FROM golang:alpine AS builder
-# Install git.
-# Git is required for fetching the dependencies.
-ENV GO111MODULE=on
-RUN apk update && apk add --no-cache git build-base
 WORKDIR app
 COPY . .
+# Install git.
+# Git is required for fetching the dependencies.
+RUN apk update && apk add --no-cache git coreutils \
+  && GO111MODULE=off go get github.com/grpc-ecosystem/grpc-health-probe \
+  && GO111MODULE=on go get -v ./...
 # Build the binary.
-RUN cd activity_server && go test && CGO_ENABLED=0 GOOS=linux go build -o /go/bin/activity_server
+RUN GO111MODULE=on go install ./...
 ############################  
 # STEP 2 Microservice images
 ############################
-FROM scratch
+FROM alpine
+WORKDIR /bin/
+RUN apk add --no-cache bash ca-certificates
 # Copy our static executable.
-COPY --from=builder /go/bin/activity_server /go/bin/activity_server
-# Run the hello binary.
-ENTRYPOINT ["/go/bin/activity_server"]
+COPY --from=builder /go/bin/grpc-health-probe /go/bin/activity_server /go/bin/activity_client ./
+ENV PORT 50051
+EXPOSE 50051
+# Run the activity_server binary.
+ENTRYPOINT ["activity_server"]

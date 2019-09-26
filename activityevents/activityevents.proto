@@ -31,9 +31,9 @@ message EventRequest {
 }
 
 message Timestamp {
-  // Will hold time when client send data
+  // Will hold time when client send data (for calculations)
   int64 send = 1;
-  // Will hold time when server received data
+  // Will hold time when server received data (for calculations)
   int64 receive = 2;
 }
 

@@ -12,12 +12,25 @@ import (
 	"google.golang.org/grpc"
 
 	pb "github.com/idestis/ori-service/activityevents"
+	grpc_health_v1 "github.com/idestis/ori-service/activityevents/health/v1"
 )
 
 type server struct {
 	// No database is presented in this service
 	// In case if we will store this events to database, this part will be updated
 	savedEvents []*pb.EventRequest
+}
+
+type HealthImpl struct{}
+
+func (h *HealthImpl) Check(ctx context.Context, args *grpc_health_v1.HealthCheckRequest) (*grpc_health_v1.HealthCheckResponse, error) {
+	return &grpc_health_v1.HealthCheckResponse{
+		Status: grpc_health_v1.HealthCheckResponse_SERVING,
+	}, nil
+}
+
+func (h *HealthImpl) Watch(*grpc_health_v1.HealthCheckRequest, grpc_health_v1.Health_WatchServer) error {
+	return nil
 }
 
 func (s *server) CreateEvent(ctx context.Context, in *pb.EventRequest) (*pb.EventResponse, error) {
@@ -59,5 +72,6 @@ func main() {
 	s := grpc.NewServer()
 	defer s.Stop()
 	pb.RegisterActivityEventsServer(s, &server{})
+	grpc_health_v1.RegisterHealthServer(s, &HealthImpl{})
 	s.Serve(lis)
 }

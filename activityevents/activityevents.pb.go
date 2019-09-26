@@ -127,14 +127,9 @@ func (m *EventRequest) GetDeploymentId() int32 {
 }
 
 type Timestamp struct {
-	// Represents seconds of UTC time since Unix epoch
-	// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
-	// 9999-12-31T23:59:59Z inclusive.
+	// Will hold time when client send data (for calculations)
 	Send int64 `protobuf:"varint,1,opt,name=send,proto3" json:"send,omitempty"`
-	// Non-negative fractions of a second at nanosecond resolution. Negative
-	// second values with fractions must still have non-negative nanos values
-	// that count forward in time. Must be from 0 to 999,999,999
-	// inclusive.
+	// Will hold time when server received data (for calculations)
 	Receive              int64    `protobuf:"varint,2,opt,name=receive,proto3" json:"receive,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -181,8 +176,9 @@ func (m *Timestamp) GetReceive() int64 {
 }
 
 type EventResponse struct {
-	Id                   int32    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Success              bool     `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	Id      int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Success bool  `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	//
 	ExecutionTime        int64    `protobuf:"varint,3,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`

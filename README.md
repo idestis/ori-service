@@ -42,7 +42,7 @@ INFO[0000] An event created with id [1] for deployment_id [1] in 4 ms
 INFO[0000] Event: id:1 message:"Deployment has beed created successfully" timestamp:<send:1569500037894488000 receive:1569500037898843000 > deployment_id:1
 ```
 
-Default output if no params given
+Default output if no params was given will show you help information
 
 ```bash
 -add string
@@ -74,4 +74,12 @@ Binaries `activity_server` and `activity_client` are available on the Github Rel
 
 ```bash
 helm install ./k8s/helm/activity_server --name activity_server --namespace activity_server --set image.tag=latest
+```
+
+## Develop
+
+```bash
+git clone https://github.com/idestis/ori-service.git ori-service && cd $_
+
+go generate ./...     # only if you canged .proto files
 ```
