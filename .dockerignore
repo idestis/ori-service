@@ -1,2 +1,3 @@
-activity_client/*s
+activity_client/*
 README.md
+k8s/*
